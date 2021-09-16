@@ -1,16 +1,20 @@
 {
     "name": "management",
     "version": "1.0.0",
-    "script": {
+    "private": true,
+    "scripts": {
         "client": "cd client && yarn start",
         "server": "nodemon server.js",
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
+        "@material-ui/core": "^4.12.3",
         "body-parser": "^1.19.0",
-        "express": "^4.17.1"
+        "dev": "^1.13.0",
+        "express": "^4.17.1",
+        "react": "^17.0.2"
     },
     "devDependencies": {
-        "concurrently": "^4.0.1"
+        "concurrently": "^4.1.2"
     }
 }

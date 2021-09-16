@@ -1,39 +1,59 @@
 import React, {Component} from 'react';
-
 import './App.css';
-
 import Customer from './components/Customer'
+import Paper from '@material-ui/core/Paper'
+import Table from '@material-ui/core/Table'
+import TableHead from '@material-ui/core/TableHead'
+import TableBody from '@material-ui/core/TableBody'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import { withStyles} from '@material-ui/core/styles'
 
-const customers = [
-  {
-  "id" :1,
-  "image" : "https://placeimg.com/64/64/1",
-  'name' :'윤동주',
-  'birthday' : "980817",
-  "gender" : "남성",
-  "job" : "대학생"
+const styles = theme => ({
+  root : {
+    width : '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX : "auto" 
   },
-  {
-    "id" :2,
-    "image" : "https://placeimg.com/64/64/2",
-    'name' :'김동주',
-    'birthday' : "980815",
-    "gender" : "여성",
-    "job" : "고등학생"
-    },
-    {
-      "id" :3,
-      "image" : "https://placeimg.com/64/64/3",
-      'name' :'간동주',
-      'birthday' : "980819",
-      "gender" : "중성",
-      "job" : "중학생"
-      }
-    ]
+  table : {
+    mindWidth :1080
+  }
+})
+
+
+
 class App extends Component {
+
+  state = {
+    customers: ""
+  }
+
+  componentDidMount() {
+    this.callApi()
+    .then(res => this.setState({customers: res}))
+    .catch(err => console.log(err))
+  }
+
+  callApi = async () => {
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
   render(){
     return (
-      <div>
+      <Paper className = {classes.root}>
+        <Table className = {classes.table}>
+        <TableBody>
+          <TableHead>
+            <TableRow>
+              <TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>생년월일</TableCell>
+              <TableCell>성별</TableCell>
+              <TableCell>직업</TableCell>
+            </TableRow>
+          </TableHead>
         {customers.map(c=> {
           return (
             <Customer
@@ -47,11 +67,11 @@ class App extends Component {
             />
           )
         })}
-
-
-      </div>
+        </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
